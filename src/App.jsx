@@ -21,14 +21,12 @@ function App() {
   }
   const login = async(e)=> {
     e.preventDefault();
-    console.log(account)
     try {
       const res = await axios.post(`${VITE_BASE_URL}/admin/signin`,account);
       const {token,expired} = res.data;
       document.cookie = `onion=${token}; expires=${new Date(expired)}`;
       setIsAuth(true);
       axios.defaults.headers.common['Authorization'] = token;
-      console.log(token)
       const el = await axios.get(`${VITE_BASE_URL}/api/${VITE_API_PATH}/admin/products`);
       setProducts(el.data.products);
     } catch (error) {
